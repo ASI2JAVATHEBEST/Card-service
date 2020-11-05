@@ -1,7 +1,7 @@
 package com.cpe.springboot.card.Controller;
 
 import com.cpe.springboot.card.model.CardModel;
-import com.cpe.springboot.user.model.UserModel;
+import com.cpe.springboot.model.UserModel;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
