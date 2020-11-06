@@ -66,5 +66,15 @@ public class CardRestController {
 		return list;
 
 	}
+
+	@RequestMapping("/cards_rand")
+	private List<CardLightModel> getCardsRand() {
+		List<CardLightModel> list=new ArrayList<>();
+		for( CardModel c : cardModelService.getRandCard(5)){
+			CardLightModel cLight=new CardLightModel(c);
+			list.add(cLight);
+		}
+		return list;
+	}
 	
 }
