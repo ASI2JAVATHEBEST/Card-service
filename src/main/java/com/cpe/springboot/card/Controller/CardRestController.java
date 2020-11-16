@@ -2,6 +2,7 @@ package com.cpe.springboot.card.Controller;
 
 import com.cpe.springboot.card.model.CardLightModel;
 import com.cpe.springboot.card.model.CardModel;
+import com.cpe.springboot.card.model.CardReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,9 @@ public class CardRestController {
 
 	@Autowired
 	private CardModelService cardModelService;
+
+	@Autowired
+	private CardReferenceService cardReferenceService;
 	
 	@RequestMapping("/cards")
 	private List<CardLightModel> getAllCards() {
@@ -26,6 +30,16 @@ public class CardRestController {
 			cLightList.add(new CardLightModel(c));
 		}
 		return cLightList;
+
+	}
+
+	@RequestMapping("/cardReferences")
+	private List<CardReference> getAllCardReferences() {
+		List<CardReference> cList=new ArrayList<>();
+		for(CardReference c:cardReferenceService.getAllCardRef()){
+			cList.add(c);
+		}
+		return cList;
 
 	}
 	

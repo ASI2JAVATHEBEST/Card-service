@@ -1,6 +1,6 @@
 package com.cpe.springboot.card.model;
 
-public class CardLightModel extends CardReference {
+public class CardLightModel extends CardModel {
 
     private float energy;
     private float hp;
@@ -16,7 +16,7 @@ public class CardLightModel extends CardReference {
     }
 
     public CardLightModel(CardModel cModel) {
-        super(cModel);
+        super();
         this.energy=cModel.getEnergy();
         this.hp=cModel.getHp();
         this.defence=cModel.getDefence();

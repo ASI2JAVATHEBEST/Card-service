@@ -6,11 +6,16 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "card_reference")
-public class CardModel extends CardReference{
+@Table(name = "card_model")
+public class CardModel implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
+	public Integer id;
 	@Column(name = "energy")
 	public float energy;
 	@Column(name = "hp")
@@ -33,17 +38,21 @@ public class CardModel extends CardReference{
 	@JoinColumn
 	public StoreModel store;
 
+	@ManyToOne
+	@JoinColumn
+	public CardReference cardReference;
+
 	public CardModel() {
 		super();
 	}
 
 	public CardModel(CardReference cardRef) {
-		super(cardRef);
+		super();
 	}
 
 	public CardModel(String name, String description, String family, String affinity, float energy, float hp,
 					 float defence, float attack,String imgUrl,String smallImg,float price) {
-		super(name, description, family, affinity,imgUrl,smallImg);
+		super();
 		this.energy = energy;
 		this.hp = hp;
 		this.defence = defence;
@@ -74,6 +83,12 @@ public class CardModel extends CardReference{
 	public void setAttack(float attack) {
 		this.attack = attack;
 	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public float getPrice() {
 		return price;
@@ -92,6 +107,10 @@ public class CardModel extends CardReference{
 
 	public void setStore(StoreModel storeModel) {
 		this.store=storeModel;
+	}
+
+	public void setCardReference(CardReference cardReference) {
+		this.cardReference=cardReference;
 	}
 
 	public StoreModel getStore() {
