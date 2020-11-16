@@ -1,24 +1,29 @@
 package com.cpe.springboot.card.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "card_reference")
 public class CardReference implements Serializable {
 
 	private static final long serialVersionUID = -7059808842444736266L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
-	private String name;
-	private String description;
-	private String family;
-	private String affinity;
-	private String imgUrl;
-	private String smallImgUrl;
+	@Column(name = "id")
+	public Integer id;
+	@Column(name = "name")
+	public String name;
+	@Column(name = "description")
+	public String description;
+	@Column(name = "family")
+	public String family;
+	@Column(name = "affinity")
+	public String affinity;
+	@Column(name = "img_url")
+	public String imgUrl;
+	@Column(name = "small_img_url")
+	public String smallImgUrl;
 
 	public CardReference() {
 

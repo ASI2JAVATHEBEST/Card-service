@@ -8,24 +8,30 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.*;
 
 @Entity
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+@Table(name = "card_reference")
 public class CardModel extends CardReference{
-	private float energy;
-	private float hp;
-	private float defence;
-	private float attack;
-	private float price;
+
+	@Column(name = "energy")
+	public float energy;
+	@Column(name = "hp")
+	public float hp;
+	@Column(name = "defence")
+	public float defence;
+	@Column(name = "attack")
+	public float attack;
+	@Column(name = "price")
+	public float price;
 
 	//@ManyToOne(fetch = FetchType.LAZY)
 	//@ManyToOne(cascade = CascadeType.ALL)
 	//@JoinColumn(name = "user_id", nullable = true)
 	@ManyToOne
 	@JoinColumn
-	private UserModel user;
+	public UserModel user;
 
 	@ManyToOne
 	@JoinColumn
-	private StoreModel store;
+	public StoreModel store;
 
 	public CardModel() {
 		super();
