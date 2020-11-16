@@ -1,10 +1,14 @@
 package com.cpe.springboot.card.Controller;
 
+import com.cpe.springboot.card.bus.BusService;
 import com.cpe.springboot.card.model.CardModel;
 import com.cpe.springboot.card.model.CardReference;
+import com.cpe.springboot.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
+import javax.jms.Message;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +23,8 @@ public class CardModelService {
 		this.rand=new Random();
 	}
 
+	@Autowired
+	BusService busService;
 
 	@Autowired
 	private CardModelRepository cardRepository;
@@ -66,6 +72,20 @@ public class CardModelService {
 			cardList.add(currentCard);
 		}
 		return cardList;
+	}
+
+
+	@JmsListener(destination = "channelUserToCard", containerFactory = "connectionFactory")
+	public void receiveUser(UserModel user, Message message) {
+
+		System.out.println("[BUSLISTENER] [CHANNEL RESULT_BUS_MNG] RECEIVED String MSG=["+user.toString()+"]");
+
+		for(CardModel card: getRandCard(5)) {
+			user.addCard(card);
+		}
+
+		busService.sendUser(user,"channelUserToCard");
+
 	}
 
 

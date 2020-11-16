@@ -4,8 +4,10 @@ import com.cpe.springboot.card.model.CardLightModel;
 import com.cpe.springboot.card.model.CardModel;
 import com.cpe.springboot.card.model.CardReference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jms.Message;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -90,5 +92,5 @@ public class CardRestController {
 		}
 		return list;
 	}
-	
+
 }
