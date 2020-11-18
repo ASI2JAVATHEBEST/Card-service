@@ -65,6 +65,7 @@ public class CardModelService {
 			currentCard.setEnergy(100);
 			currentCard.setHp(rand.nextFloat()*100);
 			currentCard.setPrice(111);
+			currentCard.setCardReference(cardRefService.getRandCardRef());
 			//save new card before sending for user creation
 			//this.addCard(currentCard);
 			cardList.add(currentCard);
@@ -94,6 +95,7 @@ public class CardModelService {
 			cardModelMap.put("energy", cardModel.getEnergy());
 			cardModelMap.put("hp", cardModel.getHp());
 			cardModelMap.put("price", cardModel.getPrice());
+			cardModelMap.put("card_reference_id", cardModel.getCardReference().getId());
 			cardMap.add(cardModelMap);
 		}
 
