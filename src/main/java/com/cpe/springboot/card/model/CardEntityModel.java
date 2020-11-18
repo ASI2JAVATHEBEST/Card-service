@@ -1,16 +1,11 @@
 package com.cpe.springboot.card.model;
 
-import com.cpe.springboot.store.model.StoreModel;
-import com.cpe.springboot.user.model.UserModel;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "card_model")
-public class CardModel implements Serializable {
+public class CardEntityModel implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,32 +21,23 @@ public class CardModel implements Serializable {
 	public float attack;
 	@Column(name = "price")
 	public float price;
+	@Column(name = "user_id")
+	public int userId;
+	@Column(name = "store_id")
+	public int storeId;
+	@Column(name = "card_reference_id")
+	public int cardReferenceId;
 
-	//@ManyToOne(fetch = FetchType.LAZY)
-	//@ManyToOne(cascade = CascadeType.ALL)
-	//@JoinColumn(name = "user_id", nullable = true)
-	@ManyToOne
-	@JoinColumn
-	public UserModel user;
-
-	@ManyToOne
-	@JoinColumn
-	public StoreModel store;
-
-	@ManyToOne
-	@JoinColumn
-	public CardReference cardReference;
-
-	public CardModel() {
+	public CardEntityModel() {
 		super();
 	}
 
-	public CardModel(CardReference cardRef) {
+	public CardEntityModel(CardReference cardRef) {
 		super();
 	}
 
-	public CardModel(String name, String description, String family, String affinity, float energy, float hp,
-					 float defence, float attack,String imgUrl,String smallImg,float price) {
+	public CardEntityModel(String name, String description, String family, String affinity, float energy, float hp,
+						   float defence, float attack, String imgUrl, String smallImg, float price) {
 		super();
 		this.energy = energy;
 		this.hp = hp;
@@ -97,24 +83,24 @@ public class CardModel implements Serializable {
 		this.price = price;
 	}
 
-	public UserModel getUser() {
-		return user;
+	public int getUser() {
+		return this.userId;
 	}
 
-	public void setUser(UserModel user) {
-		this.user = user;
+	public void setUser(int userId) {
+		this.userId = userId;
 	}
 
-	public void setStore(StoreModel storeModel) {
-		this.store=storeModel;
+	public void setStore(int storeId) {
+		this.storeId=storeId;
 	}
 
-	public void setCardReference(CardReference cardReference) {
-		this.cardReference=cardReference;
+	public void setCardReference(int cardReferenceId) {
+		this.cardReferenceId=cardReferenceId;
 	}
 
-	public StoreModel getStore() {
-		return store;
+	public int getStore() {
+		return this.storeId;
 	}
 
 	public float computePrice() {
@@ -122,8 +108,22 @@ public class CardModel implements Serializable {
 	}
 
 
-	public CardReference getCardReference() {
-		return cardReference;
+	public int getCardReference() {
+		return cardReferenceId;
+	}
+
+	public CardModel asCardModel() {
+		CardModel cardModel = new CardModel();
+		cardModel.setId(this.getId());
+		cardModel.setEnergy(this.getEnergy());
+		cardModel.setHp(this.getHp());
+		cardModel.setDefence(this.getDefence());
+		cardModel.setAttack(this.getAttack());
+		cardModel.setPrice(this.getPrice());
+		cardModel.setUser(this.getUser());
+		cardModel.setStore(this.getStore());
+		cardModel.setCardReference(this.getCardReference());
+		return cardModel;
 	}
 
 }

@@ -1,7 +1,5 @@
 package com.cpe.springboot.card.bus;
 
-import com.cpe.springboot.card.model.CardModel;
-import com.cpe.springboot.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;

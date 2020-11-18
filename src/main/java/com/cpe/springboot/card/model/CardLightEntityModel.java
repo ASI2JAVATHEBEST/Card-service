@@ -1,6 +1,6 @@
 package com.cpe.springboot.card.model;
 
-public class CardLightModel extends CardModel {
+public class CardLightEntityModel extends CardEntityModel {
 
     private float energy;
     private float hp;
@@ -10,25 +10,22 @@ public class CardLightModel extends CardModel {
 
     private Integer userId;
     private Integer storeId;
+    private Integer cardReferenceId;
 
-    public CardLightModel() {
+    public CardLightEntityModel() {
 
     }
 
-    public CardLightModel(CardModel cModel) {
+    public CardLightEntityModel(CardEntityModel cModel) {
         super();
         this.energy=cModel.getEnergy();
         this.hp=cModel.getHp();
         this.defence=cModel.getDefence();
         this.attack=cModel.getAttack();
         this.price=cModel.getPrice();
-        if( cModel.getUser() != null) {
-            this.userId = cModel.getUser().getId();
-        }
-        if( cModel.getStore()!=null) {
-            this.storeId = cModel.getStore().getId();
-        }
-
+        this.userId = cModel.getUser();
+        this.storeId = cModel.getStore();
+        this.cardReferenceId = cModel.getCardReference();
     }
 
     public float getEnergy() {
@@ -85,5 +82,13 @@ public class CardLightModel extends CardModel {
 
     public void setStoreId(Integer storeId) {
         this.storeId = storeId;
+    }
+
+    public Integer getCardReferenceId() {
+        return cardReferenceId;
+    }
+
+    public void getCardReferenceId(Integer cardReferenceId) {
+        this.cardReferenceId = cardReferenceId;
     }
 }

@@ -1,15 +1,13 @@
 package com.cpe.springboot.card.Controller;
 
 import com.cpe.springboot.card.bus.BusService;
-import com.cpe.springboot.card.model.CardModel;
+import com.cpe.springboot.card.model.CardEntityModel;
 import com.cpe.springboot.card.model.CardReference;
-import com.cpe.springboot.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
 import javax.jms.Message;
-import java.lang.reflect.Field;
 import java.util.*;
 
 @Service
@@ -30,24 +28,24 @@ public class CardModelService {
 	@Autowired
 	private CardReferenceService cardRefService;
 
-	public List<CardModel> getAllCardModel() {
-		List<CardModel> cardList = new ArrayList<>();
+	public List<CardEntityModel> getAllCardModel() {
+		List<CardEntityModel> cardList = new ArrayList<>();
 		cardRepository.findAll().forEach(cardList::add);
 		return cardList;
 	}
 
-	public void addCard(CardModel cardModel) {
-		cardRepository.save(cardModel);
+	public void addCard(CardEntityModel cardEntityModel) {
+		cardRepository.save(cardEntityModel);
 	}
 
-	public void updateCardRef(CardModel cardModel) {
-		cardRepository.save(cardModel);
+	public void updateCardRef(CardEntityModel cardEntityModel) {
+		cardRepository.save(cardEntityModel);
 
 	}
-	public void updateCard(CardModel cardModel) {
-		cardRepository.save(cardModel);
+	public void updateCard(CardEntityModel cardEntityModel) {
+		cardRepository.save(cardEntityModel);
 	}
-	public Optional<CardModel> getCard(Integer id) {
+	public Optional<CardEntityModel> getCard(Integer id) {
 		return cardRepository.findById(id);
 	}
 	
@@ -55,17 +53,17 @@ public class CardModelService {
 		cardRepository.deleteById(id);
 	}
 	
-	public List<CardModel> getRandCard(int nbr){
-		List<CardModel> cardList=new ArrayList<>();
+	public List<CardEntityModel> getRandCard(int nbr){
+		List<CardEntityModel> cardList=new ArrayList<>();
 		for(int i=0;i<nbr;i++) {
 			CardReference currentCardRef=cardRefService.getRandCardRef();
-			CardModel currentCard=new CardModel(currentCardRef);
+			CardEntityModel currentCard=new CardEntityModel(currentCardRef);
 			currentCard.setAttack(rand.nextFloat()*100);
 			currentCard.setDefence(rand.nextFloat()*100);
 			currentCard.setEnergy(100);
 			currentCard.setHp(rand.nextFloat()*100);
 			currentCard.setPrice(111);
-			currentCard.setCardReference(cardRefService.getRandCardRef());
+			currentCard.setCardReference(cardRefService.getRandCardRef().getId());
 			//save new card before sending for user creation
 			//this.addCard(currentCard);
 			cardList.add(currentCard);
@@ -83,31 +81,22 @@ public class CardModelService {
 
 		userMap.put("userId", userId);
 
-		List<CardModel> cardList = getRandCard(5);
+		List<CardEntityModel> cardList = getRandCard(5);
 
-		List<Map> cardMap = new ArrayList<>();
-
-		for(CardModel cardModel: cardList) {
-			Map<String, Object> cardModelMap = new HashMap<>();
-			cardModelMap.put("id", cardModel.getId());
-			cardModelMap.put("attack", cardModel.getAttack());
-			cardModelMap.put("defence", cardModel.getDefence());
-			cardModelMap.put("energy", cardModel.getEnergy());
-			cardModelMap.put("hp", cardModel.getHp());
-			cardModelMap.put("price", cardModel.getPrice());
-			cardModelMap.put("card_reference_id", cardModel.getCardReference().getId());
-			cardMap.add(cardModelMap);
+		for(CardEntityModel cardEntityModel : cardList) {
+			cardEntityModel.setUser(userId);
+			cardRepository.save(cardEntityModel);
 		}
-
-		userMap.put("cardMap", cardMap);
-
-		busService.sendUser(userMap,"channelCardToUser");
 
 	}
 
 
-	public List<CardModel> getAllCardToSell(){
-		return this.cardRepository.findByUser(null);
+	public List<Integer> getAllCardToSell(){
+		return this.cardRepository.findByUserId(0);
+	}
+
+	public List<Integer> getCardsList(Integer userId){
+		return this.cardRepository.findByUserId(userId);
 	}
 }
 

@@ -1,13 +1,11 @@
 package com.cpe.springboot.card.Controller;
 
-import com.cpe.springboot.card.model.CardLightModel;
-import com.cpe.springboot.card.model.CardModel;
+import com.cpe.springboot.card.model.CardLightEntityModel;
+import com.cpe.springboot.card.model.CardEntityModel;
 import com.cpe.springboot.card.model.CardReference;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jms.Message;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,10 +24,10 @@ public class CardRestController {
 	private CardReferenceService cardReferenceService;
 	
 	@RequestMapping("/cards")
-	private List<CardLightModel> getAllCards() {
-		List<CardLightModel> cLightList=new ArrayList<>();
-		for(CardModel c:cardModelService.getAllCardModel()){
-			cLightList.add(new CardLightModel(c));
+	private List<CardEntityModel> getAllCards() {
+		List<CardEntityModel> cLightList=new ArrayList<>();
+		for(CardEntityModel c:cardModelService.getAllCardModel()){
+			cLightList.add(c);
 		}
 		return cLightList;
 
@@ -46,23 +44,23 @@ public class CardRestController {
 	}
 	
 	@RequestMapping("/card/{id}")
-	private CardLightModel getCard(@PathVariable String id) {
-		Optional<CardModel> rcard;
+	private CardEntityModel getCard(@PathVariable String id) {
+		Optional<CardEntityModel> rcard;
 		rcard= cardModelService.getCard(Integer.valueOf(id));
 		if(rcard.isPresent()) {
-			return new CardLightModel(rcard.get());
+			return rcard.get();
 		}
 		return null;
 
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,value="/card")
-	public void addCard(@RequestBody CardModel card) {
+	public void addCard(@RequestBody CardEntityModel card) {
 		cardModelService.addCard(card);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT,value="/card/{id}")
-	public void updateCard(@RequestBody CardModel card,@PathVariable String id) {
+	public void updateCard(@RequestBody CardEntityModel card, @PathVariable String id) {
 		card.setId(Integer.valueOf(id));
 		cardModelService.updateCard(card);
 	}
@@ -73,21 +71,32 @@ public class CardRestController {
 	}
 
 	@RequestMapping("/cards_to_sell")
-	private List<CardLightModel> getCardsToSell() {
-		List<CardLightModel> list=new ArrayList<>();
-		for( CardModel c : cardModelService.getAllCardToSell()){
-			CardLightModel cLight=new CardLightModel(c);
+	private List<CardLightEntityModel> getCardsToSell() {
+		List<CardLightEntityModel> list=new ArrayList<>();
+		for( Integer cardId : cardModelService.getAllCardToSell()){
+			CardLightEntityModel cLight=new CardLightEntityModel();
+			cLight.setId(cardId);
 			list.add(cLight);
 		}
 		return list;
 
 	}
 
+	@RequestMapping("/cards_list/{id}")
+	private List<Integer> cardsList(Integer id) {
+		List<Integer> list=new ArrayList<>();
+		for( Integer cardId : cardModelService.getCardsList(id)){
+			list.add(cardId);
+		}
+		return list;
+
+	}
+
 	@RequestMapping("/cards_rand")
-	private List<CardLightModel> getCardsRand() {
-		List<CardLightModel> list=new ArrayList<>();
-		for( CardModel c : cardModelService.getRandCard(5)){
-			CardLightModel cLight=new CardLightModel(c);
+	private List<CardLightEntityModel> getCardsRand() {
+		List<CardLightEntityModel> list=new ArrayList<>();
+		for( CardEntityModel c : cardModelService.getRandCard(5)){
+			CardLightEntityModel cLight=new CardLightEntityModel(c);
 			list.add(cLight);
 		}
 		return list;
