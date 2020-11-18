@@ -9,10 +9,8 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
 import javax.jms.Message;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.lang.reflect.Field;
+import java.util.*;
 
 @Service
 public class CardModelService {
@@ -76,15 +74,32 @@ public class CardModelService {
 
 
 	@JmsListener(destination = "channelUserToCard", containerFactory = "connectionFactory")
-	public void receiveUser(UserModel user, Message message) {
+	public void receiveUser(Integer userId, Message message) {
 
-		System.out.println("[BUSLISTENER] [CHANNEL RESULT_BUS_MNG] RECEIVED String MSG=["+user.toString()+"]");
+		System.out.println("[BUSLISTENER] [CHANNEL RESULT_BUS_MNG] RECEIVED String MSG=["+userId.toString()+"]");
 
-		for(CardModel card: getRandCard(5)) {
-			user.addCard(card);
+		Map<String, Object> userMap = new HashMap<>();
+
+		userMap.put("userId", userId);
+
+		List<CardModel> cardList = getRandCard(5);
+
+		List<Map> cardMap = new ArrayList<>();
+
+		for(CardModel cardModel: cardList) {
+			Map<String, Object> cardModelMap = new HashMap<>();
+			cardModelMap.put("id", cardModel.getId());
+			cardModelMap.put("attack", cardModel.getAttack());
+			cardModelMap.put("defence", cardModel.getDefence());
+			cardModelMap.put("energy", cardModel.getEnergy());
+			cardModelMap.put("hp", cardModel.getHp());
+			cardModelMap.put("price", cardModel.getPrice());
+			cardMap.add(cardModelMap);
 		}
 
-		busService.sendUser(user,"channelUserToCard");
+		userMap.put("cardMap", cardMap);
+
+		busService.sendUser(userMap,"channelUserToCard");
 
 	}
 

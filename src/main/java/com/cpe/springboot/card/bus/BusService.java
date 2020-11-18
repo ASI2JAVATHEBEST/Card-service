@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.smartcardio.Card;
-import java.util.List;
+import java.util.Map;
 
 @Service
 public class BusService {
@@ -25,8 +24,8 @@ public class BusService {
         jmsTemplate.convertAndSend(busName,msg);
     }
 
-    public void sendUser(UserModel user, String busName) {
-        System.out.println("[BUSSERVICE] SEND String MSG=["+user.toString()+"] to Bus=["+user.toString()+"]");
+    public void sendUser(Map user, String busName) {
+        System.out.println("[BUSSERVICE] SEND String MSG=["+user.toString()+"] to Bus=["+busName+"]");
         jmsTemplate.convertAndSend(busName,user);
     }
 }

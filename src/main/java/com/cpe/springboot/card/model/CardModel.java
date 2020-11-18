@@ -122,4 +122,8 @@ public class CardModel implements Serializable {
 	}
 
 
+	public CardReference getCardReference() {
+		return cardReference;
+	}
+
 }
