@@ -99,7 +99,7 @@ public class CardModelService {
 
 		userMap.put("cardMap", cardMap);
 
-		busService.sendUser(userMap,"channelUserToCard");
+		busService.sendUser(userMap,"channelCardToUser");
 
 	}
 
