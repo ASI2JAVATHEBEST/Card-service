@@ -92,11 +92,21 @@ public class CardModelService {
 
 
 	public List<Integer> getAllCardToSell(){
-		return this.cardRepository.findByUserId(0);
+		List<CardEntityModel> cardsList = this.cardRepository.findByUserId(0);
+		List<Integer> cardsId = new ArrayList<>();
+		for(CardEntityModel card: cardsList){
+			cardsId.add(card.getId());
+		}
+		return cardsId;
 	}
 
 	public List<Integer> getCardsList(Integer userId){
-		return this.cardRepository.findByUserId(userId);
+		List<CardEntityModel> cardsList = this.cardRepository.findByUserId(userId);
+		List<Integer> cardsId = new ArrayList<>();
+		for(CardEntityModel card: cardsList){
+			cardsId.add(card.getId());
+		}
+		return cardsId;
 	}
 }
 

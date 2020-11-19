@@ -42,6 +42,16 @@ public class CardRestController {
 		return cList;
 
 	}
+
+	@RequestMapping("/cardReference/{id}")
+	private CardReference getCardReference(@PathVariable String id) {
+		Optional<CardReference> rcard;
+		rcard= cardReferenceService.getCard(Integer.valueOf(id));
+		if(rcard.isPresent()) {
+			return rcard.get();
+		}
+		return null;
+	}
 	
 	@RequestMapping("/card/{id}")
 	private CardEntityModel getCard(@PathVariable String id) {
@@ -71,19 +81,17 @@ public class CardRestController {
 	}
 
 	@RequestMapping("/cards_to_sell")
-	private List<CardLightEntityModel> getCardsToSell() {
-		List<CardLightEntityModel> list=new ArrayList<>();
+	private List<Integer> getCardsToSell() {
+		List<Integer> list=new ArrayList<>();
 		for( Integer cardId : cardModelService.getAllCardToSell()){
-			CardLightEntityModel cLight=new CardLightEntityModel();
-			cLight.setId(cardId);
-			list.add(cLight);
+			list.add(cardId);
 		}
 		return list;
 
 	}
 
 	@RequestMapping("/cards_list/{id}")
-	private List<Integer> cardsList(Integer id) {
+	private List<Integer> cardsList(@PathVariable Integer id) {
 		List<Integer> list=new ArrayList<>();
 		for( Integer cardId : cardModelService.getCardsList(id)){
 			list.add(cardId);

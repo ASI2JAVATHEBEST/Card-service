@@ -1,5 +1,6 @@
 package com.cpe.springboot.card.Controller;
 
+import com.cpe.springboot.card.model.CardEntityModel;
 import com.cpe.springboot.card.model.CardReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -40,6 +42,10 @@ public class CardReferenceService {
 			return cardRefList.get(rindex);
 		}
 		return null;
+	}
+
+	public Optional<CardReference> getCard(Integer id) {
+		return cardRefRepository.findById(id);
 	}
 
 	/**

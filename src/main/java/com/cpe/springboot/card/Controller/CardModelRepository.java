@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface CardModelRepository extends CrudRepository<CardEntityModel, Integer> {
-    List<Integer> findByUserId(int userId);
+    List<CardEntityModel> findByUserId(int userId);
 }
