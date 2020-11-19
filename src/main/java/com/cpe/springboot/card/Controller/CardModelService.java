@@ -59,10 +59,10 @@ public class CardModelService {
 		for(int i=0;i<nbr;i++) {
 			CardReference currentCardRef=cardRefService.getRandCardRef();
 			CardEntityModel currentCard=new CardEntityModel(currentCardRef);
-			currentCard.setAttack(rand.nextFloat()*100);
-			currentCard.setDefence(rand.nextFloat()*100);
-			currentCard.setEnergy(100);
-			currentCard.setHp(rand.nextFloat()*100);
+			currentCard.setAttack((float) Math.ceil(rand.nextFloat()*150));
+			currentCard.setDefence((float) Math.ceil(rand.nextFloat()*100));
+			currentCard.setEnergy((float) Math.ceil(rand.nextFloat()*4));
+			currentCard.setHp((float) Math.ceil(rand.nextFloat()*1000));
 			currentCard.setPrice(111);
 			currentCard.setCardReference(cardRefService.getRandCardRef());
 			//save new card before sending for user creation
