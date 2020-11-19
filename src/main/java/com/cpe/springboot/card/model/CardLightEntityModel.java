@@ -25,7 +25,7 @@ public class CardLightEntityModel extends CardEntityModel {
         this.price=cModel.getPrice();
         this.userId = cModel.getUser();
         this.storeId = cModel.getStore();
-        this.cardReferenceId = cModel.getCardReference();
+        this.cardReferenceId = cModel.getCardReference().getId();
     }
 
     public float getEnergy() {

@@ -45,6 +45,7 @@ public class CardModelService {
 	public void updateCard(CardEntityModel cardEntityModel) {
 		cardRepository.save(cardEntityModel);
 	}
+
 	public Optional<CardEntityModel> getCard(Integer id) {
 		return cardRepository.findById(id);
 	}
@@ -63,7 +64,7 @@ public class CardModelService {
 			currentCard.setEnergy(100);
 			currentCard.setHp(rand.nextFloat()*100);
 			currentCard.setPrice(111);
-			currentCard.setCardReference(cardRefService.getRandCardRef().getId());
+			currentCard.setCardReference(cardRefService.getRandCardRef());
 			//save new card before sending for user creation
 			//this.addCard(currentCard);
 			cardList.add(currentCard);

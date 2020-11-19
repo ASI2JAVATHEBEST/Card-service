@@ -25,8 +25,9 @@ public class CardEntityModel implements Serializable {
 	public int userId;
 	@Column(name = "store_id")
 	public int storeId;
-	@Column(name = "card_reference_id")
-	public int cardReferenceId;
+
+	@ManyToOne
+	public CardReference cardReference;
 
 	public CardEntityModel() {
 		super();
@@ -95,8 +96,8 @@ public class CardEntityModel implements Serializable {
 		this.storeId=storeId;
 	}
 
-	public void setCardReference(int cardReferenceId) {
-		this.cardReferenceId=cardReferenceId;
+	public void setCardReference(CardReference cardReference) {
+		this.cardReference=cardReference;
 	}
 
 	public int getStore() {
@@ -108,8 +109,8 @@ public class CardEntityModel implements Serializable {
 	}
 
 
-	public int getCardReference() {
-		return cardReferenceId;
+	public CardReference getCardReference() {
+		return cardReference;
 	}
 
 	public CardModel asCardModel() {
@@ -122,7 +123,7 @@ public class CardEntityModel implements Serializable {
 		cardModel.setPrice(this.getPrice());
 		cardModel.setUser(this.getUser());
 		cardModel.setStore(this.getStore());
-		cardModel.setCardReference(this.getCardReference());
+		cardModel.setCardReference(this.getCardReference().getId());
 		return cardModel;
 	}
 
