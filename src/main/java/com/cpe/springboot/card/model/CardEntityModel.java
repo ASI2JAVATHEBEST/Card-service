@@ -123,7 +123,7 @@ public class CardEntityModel implements Serializable {
 		cardModel.setPrice(this.getPrice());
 		cardModel.setUser(this.getUser());
 		cardModel.setStore(this.getStore());
-		cardModel.setCardReference(this.getCardReference().getId());
+		cardModel.setCardReference(this.getCardReference());
 		return cardModel;
 	}
 
